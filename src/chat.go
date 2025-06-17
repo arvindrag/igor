@@ -13,9 +13,11 @@ type model struct {
 	viewport DynViewPort
 	textarea textarea.Model
 	err      error
-	oclient  OllamaClient
+	oclient  *OllamaEngine
 	cmdchan  *chan tea.Msg
 }
+
+const gap = "\n\n"
 
 func buildUserTextArea() textarea.Model {
 	textArea := textarea.New()
@@ -42,7 +44,7 @@ func BuildChatUIModel(cmdchan *chan tea.Msg) model {
 		textarea: textarea,
 		viewport: BuildDynViewPort("Ask me anything!", textarea.Height()),
 		err:      nil,
-		oclient:  BuildOllamaClient("llama3.2"),
+		oclient:  InitOllamaEngine("llama3.2"),
 		cmdchan:  cmdchan,
 	}
 }

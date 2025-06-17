@@ -58,7 +58,7 @@ func (m DynViewPort) mdrender(msg string) string {
 	trimmed := strings.Trim(md, "\n")
 	return trimmed
 }
-func (m DynViewPort) renderContent() {
+func (m DynViewPort) renderContent() DynViewPort {
 	var content []string
 	var spin = ""
 	if m.spin {
@@ -71,7 +71,7 @@ func (m DynViewPort) renderContent() {
 		lipgloss.NewStyle().Width(
 			m.viewport.Width).Render(
 			strings.Join(content, "\n")))
-	m.viewport.GotoBottom()
+	return m
 }
 func (m DynViewPort) Update(msg tea.Msg) (DynViewPort, tea.Cmd) {
 	var (
@@ -102,11 +102,13 @@ func (m DynViewPort) Update(msg tea.Msg) (DynViewPort, tea.Cmd) {
 			m.latest = msg.msg
 			m.spin = true
 		}
-		m.renderContent()
+		m = m.renderContent()
+		m.viewport.GotoBottom()
 	}
 	return m, tea.Batch(vpCmd, spCmd)
 }
 
 func (m DynViewPort) View() string {
+	m = m.renderContent()
 	return m.viewport.View()
 }

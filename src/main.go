@@ -6,8 +6,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-const gap = "\n\n"
-
 func main() {
 	cmdchan := make(chan tea.Msg)
 	var chatUI *tea.Program
