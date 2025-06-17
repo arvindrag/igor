@@ -5,7 +5,7 @@ MAIN := $(SRC_DIR)/main.go
 
 # Run the project
 run:
-	go run ./src
+	OLLAMA_HOST=http://mother.local:11434 go run ./src
 
 # Build the binary
 build:

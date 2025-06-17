@@ -9,7 +9,14 @@ import (
 const gap = "\n\n"
 
 func main() {
-	chatUI := tea.NewProgram(BuildChatUIModel(), tea.WithAltScreen())
+	cmdchan := make(chan tea.Msg)
+	var chatUI *tea.Program
+	go func() {
+		for payload := range cmdchan {
+			chatUI.Send(payload)
+		}
+	}()
+	chatUI = tea.NewProgram(BuildChatUIModel(&cmdchan), tea.WithAltScreen())
 
 	if _, err := chatUI.Run(); err != nil {
 		log.Fatal(err)
