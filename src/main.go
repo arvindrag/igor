@@ -13,6 +13,7 @@ func main() {
 	var chatUI *tea.Program
 	go func() {
 		for payload := range cmdchan {
+
 			chatUI.Send(payload)
 		}
 	}()
